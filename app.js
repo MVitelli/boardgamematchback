@@ -1,12 +1,12 @@
 // Utilizar funcionalidades del Ecmascript 6
 'use strict'
 // Cargamos los módulos de express y body-parser
-var express = require('express');
+const express = require('express');
 var bodyParser = require('body-parser');
 // Llamamos a express para poder crear el servidor
-var app = express();
+const app = express();
 // Importamos las rutas
-var game_routes = require('./routes/game'); 
+const game_routes = require('./routes/game'); 
 
 //un metodo que se ejecuta antes que llegue a un controlador
 //Configuramos bodyParser para que convierta el body de nuestras peticiones a JSON
