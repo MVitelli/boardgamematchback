@@ -2,7 +2,7 @@
 const express = require('express');
 const axios = require('axios')
 const xml2js = require('xml2js')
-const apiURL = 'https://www.boardgamegeek.com/xmlapi2/search?query='
+const apiURL = 'https://www.boardgamegeek.com/xmlapi2/'
 const exact = '&exact=1'
 // Cargamos el controlador
 const GameController = require('../Controllers/game')
@@ -14,7 +14,24 @@ api.get('/game/:gameId', GameController.getById);
 
 api.get('/gameBGG/search', (req, res) => {
     let { name } = req.query
-    axios.get(apiURL + name + exact)
+    axios.get(apiURL + `search?query="${name}exact`)
+        .then((response) => {
+            xml2js.parseStringPromise(response.data, { mergeAttrs: true, explicitArray: false })
+                .then((result) => {
+                    res.send(JSON.stringify(result))
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        })
+        .catch(err => {
+            console.log(err)
+        })
+})
+
+api.get('/user/wishlist', (req, res) => {
+    let { name } = req.query;
+    axios.get(apiURL + `collection?username=${name}&wishlist=1`)
         .then((response) => {
             xml2js.parseStringPromise(response.data, { mergeAttrs: true, explicitArray: false })
                 .then((result) => {
